@@ -2,11 +2,7 @@ const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 module.exports = {
   mode: 'development',
-  entry: {
-    // 多入口
-    index: './src/index.js',
-    print: './src/print.js'
-  },
+  entry: ['./src/index.js'],
   devServer: {
     static: './dist'
   },
@@ -17,13 +13,23 @@ module.exports = {
   ],
   devtool: 'inline-source-map',
   output: {
-    filename: '[name].bundle.js',
+    filename: '[name].[contenthash].bundle.js',
     path: path.resolve(__dirname, 'dist'),
     clean: true,
     publicPath: '/'
   },
   optimization: {
-    runtimeChunk: 'single'
+    moduleIds: 'deterministic',
+    runtimeChunk: 'single',
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'all'
+        }
+      }
+    }
   },
   module: {
     rules:[
