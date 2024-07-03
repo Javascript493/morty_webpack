@@ -1,12 +1,11 @@
-import _ from 'lodash'
-import printMe from './print'
-function component() {
-  const element = document.createElement('div')
-  const btn = document.createElement('button')
-  element.innerHTML = _.join(['hello', 'webpack'], ' ')
-  btn.innerHTML = 'click me and check the console!'
-  btn.onclick = printMe
-  element.appendChild(btn)
-  return element
-}
-document.body.appendChild(component())
+async function getComponent() {
+  // lodash 现在使用 import 引入
+  const {default: _} = await import('loadsh')
+  const element = document.createElement('div');
+  element.innerHTML = _.join(['Hello', 'webpack'], ' ');
+  return element;
+ }
+
+getComponent().then((component) => {
+  document.body.appendChild(component);
+});
